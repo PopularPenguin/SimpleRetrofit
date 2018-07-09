@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity(), Callback<List<Article>> {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        text.text = "Initializing..."
+        tv.text = "Initializing..."
 
         val udacityUrl = "https://go.udacity.com/"
-        //val baseUrl = "https://git.eclipse.org/r/"
+
         val gson = GsonBuilder()
                 .setLenient()
                 .create()
@@ -30,25 +30,25 @@ class MainActivity : AppCompatActivity(), Callback<List<Article>> {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
 
-        //val gerritApi = retrofit.create(GerritAPI::class.java)
-        //gerritApi.loadChanges("status:open").enqueue(this)
-
         val articleAPI = retrofit.create(ArticleService::class.java)
         articleAPI.articleList().enqueue(this)
     }
 
     override fun onResponse(call: Call<List<Article>>?, response: Response<List<Article>>?) {
         if (response != null && response.isSuccessful) {
-            text.text = "" // clear the text field
+            tv.text = "" // clear the text field
 
-            response.body()
-                    ?.forEach { article -> text.append("${article.id}: ${article.title} by ${article.author}\n")}
+            response.body()?.forEach { article -> tv.append(formatText(article))}
         } else {
-            text.text = "Failure to fetch data"
+            tv.text = "Failure to fetch data"
         }
     }
 
     override fun onFailure(call: Call<List<Article>>?, t: Throwable?) {
         t?.printStackTrace()
+    }
+
+    private fun formatText(article: Article): String {
+        return "${article.id}: ${article.title} by ${article.author}\n\n"
     }
 }
