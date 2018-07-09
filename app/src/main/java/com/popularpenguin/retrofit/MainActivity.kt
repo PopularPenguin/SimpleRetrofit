@@ -34,13 +34,15 @@ class MainActivity : AppCompatActivity() {
         articleAPI.articleList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { list ->
-                    tv.text = ""
-                    list.forEach { tv.append(formatText(it)) }
-                }
+                .subscribe { displayList(it) }
     }
 
     private fun formatText(article: Article): String {
-        return "${article.id}: ${article.title} by ${article.author}\n\n"
+        return "${article.id}: ${article.title} by ${article.author}: ${article.body.length}\n\n"
+    }
+
+    private fun displayList(list: List<Article>) {
+        tv.text = ""
+        list.forEach { tv.append(formatText(it)) }
     }
 }
