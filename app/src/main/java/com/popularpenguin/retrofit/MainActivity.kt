@@ -11,42 +11,44 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity(), Callback<List<Change>> {
+class MainActivity : AppCompatActivity(), Callback<List<Article>> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        text.text = "Initializing"
+        text.text = "Initializing..."
 
-        val udacityUrl = "https://go.udacity.com"
-        val baseUrl = "https://git.eclipse.org/r/"
+        val udacityUrl = "https://go.udacity.com/"
+        //val baseUrl = "https://git.eclipse.org/r/"
         val gson = GsonBuilder()
                 .setLenient()
                 .create()
 
         val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(udacityUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
 
-        val gerritApi = retrofit.create(GerritAPI::class.java)
-        gerritApi.loadChanges("status:open").enqueue(this)
+        //val gerritApi = retrofit.create(GerritAPI::class.java)
+        //gerritApi.loadChanges("status:open").enqueue(this)
 
         val articleAPI = retrofit.create(ArticleService::class.java)
-        //articleAPI.articleList().enqueue(this)
+        articleAPI.articleList().enqueue(this)
     }
 
-    override fun onResponse(call: Call<List<Change>>?, response: Response<List<Change>>?) {
+    override fun onResponse(call: Call<List<Article>>?, response: Response<List<Article>>?) {
         if (response != null && response.isSuccessful) {
+            text.text = "" // clear the text field
+
             response.body()
-                    ?.forEach { change -> text.append("${change.subject} \n")}
+                    ?.forEach { article -> text.append("${article.id}: ${article.title} by ${article.author}\n")}
         } else {
             text.text = "Failure to fetch data"
         }
     }
 
-    override fun onFailure(call: Call<List<Change>>?, t: Throwable?) {
+    override fun onFailure(call: Call<List<Article>>?, t: Throwable?) {
         t?.printStackTrace()
     }
 }

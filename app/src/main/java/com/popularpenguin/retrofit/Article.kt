@@ -1,5 +1,8 @@
 package com.popularpenguin.retrofit
 
 class Article {
-    val articleString: String = ""
+    var id = ""
+    var title = ""
+    var author = ""
+    var body = ""
 }
