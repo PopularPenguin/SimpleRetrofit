@@ -5,7 +5,6 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
     lateinit var viewModel: ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

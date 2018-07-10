@@ -1,8 +1,6 @@
 package com.popularpenguin.retrofit
 
-class Article {
-    var id = ""
-    var title = ""
-    var author = ""
-    var body = ""
-}
+data class Article(var id: String = "",
+                   var title: String = "",
+                   var author: String = "",
+                   var body: String = "")

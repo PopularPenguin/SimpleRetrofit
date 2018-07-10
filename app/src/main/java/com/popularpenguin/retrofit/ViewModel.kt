@@ -11,7 +11,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ViewModel {
-
     companion object {
         const val BASE_URL = "https://go.udacity.com/"
     }
