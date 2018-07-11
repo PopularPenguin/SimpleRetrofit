@@ -1,6 +1,6 @@
 package com.popularpenguin.retrofit.dagger
 
-import com.popularpenguin.retrofit.MainActivity
+import com.popularpenguin.retrofit.view.MainActivity
 import dagger.Component
 import javax.inject.Singleton
 

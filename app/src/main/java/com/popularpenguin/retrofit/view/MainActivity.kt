@@ -1,8 +1,10 @@
-package com.popularpenguin.retrofit
+package com.popularpenguin.retrofit.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.popularpenguin.retrofit.R
 import com.popularpenguin.retrofit.application.RetrofitApplication
+import com.popularpenguin.retrofit.viewmodel.ViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         (application as RetrofitApplication).retrofitComponent.inject(this)
 
-        tv.text = "Initializing..."
+        tv.setText(R.string.tv_init)
     }
 
     override fun onResume() {

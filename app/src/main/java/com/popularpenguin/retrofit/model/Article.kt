@@ -1,4 +1,4 @@
-package com.popularpenguin.retrofit
+package com.popularpenguin.retrofit.model
 
 data class Article(var id: String = "",
                    var title: String = "",

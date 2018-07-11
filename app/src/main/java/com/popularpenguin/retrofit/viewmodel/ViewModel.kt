@@ -1,6 +1,9 @@
-package com.popularpenguin.retrofit
+package com.popularpenguin.retrofit.viewmodel
 
 import android.widget.TextView
+import com.popularpenguin.retrofit.R
+import com.popularpenguin.retrofit.model.Article
+import com.popularpenguin.retrofit.retrofit.ArticleService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,9 +28,15 @@ class ViewModel @Inject constructor(retrofit: Retrofit) {
 
         val disposable = networkObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .onErrorReturn { ArrayList<Article>() }
                 .subscribe { list ->
                     view.text = ""
-                    list.forEach { view.append(formatText(it)) }
+
+                    if (list.isEmpty()) {
+                        view.setText(R.string.tv_error)
+                    } else {
+                        list.forEach { view.append(formatText(it)) }
+                    }
                 }
 
         disposables.add(disposable)

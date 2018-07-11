@@ -1,6 +1,6 @@
 package com.popularpenguin.retrofit.dagger
 
-import com.popularpenguin.retrofit.ViewModel
+import com.popularpenguin.retrofit.viewmodel.ViewModel
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
