@@ -18,7 +18,7 @@ class ViewModel @Inject constructor(retrofit: Retrofit) {
 
     init {
         val articleAPI = retrofit.create(ArticleService::class.java)
-        networkObservable = articleAPI.articleList()
+        networkObservable = Observable.defer { articleAPI.articleList() }
     }
 
     fun subscribe(view: TextView) {
@@ -27,8 +27,9 @@ class ViewModel @Inject constructor(retrofit: Retrofit) {
         }
 
         val disposable = networkObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .retry(3)
                 .onErrorReturn { ArrayList<Article>() }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { list ->
                     view.text = ""
 
