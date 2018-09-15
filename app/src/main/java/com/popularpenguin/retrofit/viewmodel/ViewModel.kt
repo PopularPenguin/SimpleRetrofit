@@ -4,7 +4,7 @@ import android.widget.TextView
 import com.popularpenguin.retrofit.R
 import com.popularpenguin.retrofit.model.Article
 import com.popularpenguin.retrofit.retrofit.ArticleService
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -14,11 +14,11 @@ import javax.inject.Inject
 class ViewModel @Inject constructor(retrofit: Retrofit) {
     private val disposables = CompositeDisposable()
 
-    private val networkObservable: Observable<List<Article>>
+    private val networkObservable: Single<List<Article>>
 
     init {
         val articleAPI = retrofit.create(ArticleService::class.java)
-        networkObservable = Observable.defer { articleAPI.articleList() }
+        networkObservable = Single.defer { articleAPI.articleList() }
     }
 
     fun subscribe(view: TextView) {
