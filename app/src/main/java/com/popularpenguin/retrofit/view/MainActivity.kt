@@ -24,7 +24,20 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.subscribe(tv)
+        val disposable = viewModel.fetchNetworkObservable()
+                .subscribe(
+                        { list ->
+                            tv.text = ""
+
+                            if (list.isEmpty()) {
+                                tv.setText(R.string.tv_error)
+                            } else {
+                                list.forEach { tv.append(viewModel.formatText(it)) }
+                            }
+                        }, { _ -> tv.setText(R.string.tv_error) }
+                )
+
+        viewModel.addDisposable(disposable)
     }
 
     override fun onDestroy() {
